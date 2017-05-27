@@ -18,13 +18,13 @@ sound_switch = 1
 
 def switchSounds(): 
   global sound_switch
-  if (Button(8).is_pressed === true and Button(11).is_pressed === true):
+  if (Button(8).is_pressed == true and Button(11).is_pressed == true):
     sound_switch = 1
-  if (Button(8).is_pressed === true and Button(11).is_pressed === false):
+  if (Button(8).is_pressed == true and Button(11).is_pressed == false):
     sound_switch = 2
-  if (Button(8).is_pressed === false and Button(11).is_pressed === true):
+  if (Button(8).is_pressed == false and Button(11).is_pressed == true):
     sound_switch = 3
-  if (Button(8).is_pressed === false and Button(11).is_pressed === false):
+  if (Button(8).is_pressed == false and Button(11).is_pressed == false):
     sound_switch = 4
     
 
