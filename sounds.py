@@ -3,7 +3,6 @@ import pygame.mixer
 from pygame.mixer import Sound
 from signal import pause
 from subprocess import check_call
-import functools
 from random import randint
 
 pygame.mixer.init()
@@ -14,24 +13,27 @@ pygame.mixer.init()
 # --- not used yet:
 # GP 25
 # GP 9
+
+switch_1 = Button(8)
+switch_2 = Button(11)
 sound_switch = 1
 
 def switchSounds(): 
   global sound_switch
-  if (Button(8).is_pressed == true and Button(11).is_pressed == true):
+  if (switch_1.is_pressed == true and switch_2.is_pressed == true):
     sound_switch = 1
-  if (Button(8).is_pressed == true and Button(11).is_pressed == false):
+  if (switch_1.is_pressed == true and switch_2.is_pressed == false):
     sound_switch = 2
-  if (Button(8).is_pressed == false and Button(11).is_pressed == true):
+  if (switch_1.is_pressed == false and switch_2.is_pressed == true):
     sound_switch = 3
-  if (Button(8).is_pressed == false and Button(11).is_pressed == false):
+  if (switch_1.is_pressed == false and switch_2.is_pressed == false):
     sound_switch = 4
     
 
-Button(8).when_released = switchSounds
-Button(8).when_pressed = switchSounds
-Button(11).when_released = switchSounds
-Button(11).when_pressed = switchSounds
+switch_1.when_released = switchSounds
+switch_1.when_pressed = switchSounds
+switch_2.when_released = switchSounds
+switch_2.when_pressed = switchSounds
 
 # sound buttons:
 # GP 4 -> random!
@@ -85,16 +87,18 @@ def playDefinedSound(pin_number):
   sound.play()
 
 Button(4).when_released = playRandomSound
-buttons = [Button(pin) for pin in sound_pins]
+
+sound_pin_numbers = [14, 15, 18, 17]
+buttons = [Button(pin) for pin in sound_pin_numbers]
 for button in buttons:
-  button.when_released = functools.partial(playDefinedSound, button.pin.number) 
+  button.when_released = lambda pin_number=button.pin.number: playDefinedSound(pin_number) 
 
 # shutdown button:
 # GP 10
 def shutdown():
   check_call(['sudo', 'poweroff'])
 
-shutdownButton = Button(17, hold_time=2)
+shutdownButton = Button(10, hold_time=2)
 shutdownButton.when_held = shutdown
 
 pause()
